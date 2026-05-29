@@ -1190,6 +1190,8 @@
       color: #ffffff;
     }
 
+    .reg-step-body {}
+
     .reg-step-title {
       font-family: var(--font-display);
       font-size: 14px;
@@ -2446,7 +2448,7 @@
        STATE
     ════════════════════════════════════════════════ */
     const state = {
-      temperature: 0, humidity: 0, pm25: 0, gas: 0, aqi: 0,
+      temperature: 28.5, humidity: 72, pm25: 12, gas: 510, aqi: 48,
       liveHistory: { labels: [], temp: [], hum: [], gas: [] }
     };
     const MAX_LIVE_POINTS = 20;
@@ -2484,25 +2486,32 @@
     updateClock();
 
     /* ════════════════════════════════════════════════
-       WEEKLY CHART
+       WEEKLY CHART — PM2.5, CO2, Suhu
     ════════════════════════════════════════════════ */
     const trendCtx = document.getElementById('trendChart').getContext('2d');
     const trendChart = new Chart(trendCtx, {
       type: 'bar',
       data: {
-        labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+        labels: ['Kam\n22 Mei', 'Jum\n23 Mei', 'Sab\n24 Mei', 'Min\n25 Mei', 'Sen\n26 Mei', 'Sel\n27 Mei', 'Rab\n28 Mei'],
         datasets: [
           {
-            label: 'Suhu (°C)',
-            data: [29, 31, 28, 30, 27, 22, 25],
-            backgroundColor: 'rgba(30, 144, 255, 0.75)',
+            label: 'PM2.5 (µg/m³)',
+            data: [13.6, 16.2, 10.4, 9.1, 18.7, 21.3, 12.0],
+            backgroundColor: 'rgba(255, 77, 90, 0.75)',
             borderRadius: 5,
             borderSkipped: false
           },
           {
-            label: 'Kelembaban (%)',
-            data: [84, 80, 88, 82, 90, 86, 83],
-            backgroundColor: 'rgba(100, 180, 255, 0.45)',
+            label: 'CO₂ (PPM/10)',
+            data: [51.8, 53.4, 49.7, 48.8, 55.1, 56.3, 51.0],
+            backgroundColor: 'rgba(46, 232, 181, 0.55)',
+            borderRadius: 5,
+            borderSkipped: false
+          },
+          {
+            label: 'Suhu (°C)',
+            data: [28.3, 29.1, 27.6, 27.0, 29.8, 30.4, 28.5],
+            backgroundColor: 'rgba(240, 165, 0, 0.65)',
             borderRadius: 5,
             borderSkipped: false
           }
@@ -2517,22 +2526,69 @@
             ticks: { color: '#6b7280', font: { size: 9 } },
             grid: { color: 'rgba(30, 144, 255, 0.05)' },
             suggestedMin: 0,
-            suggestedMax: 100
+            suggestedMax: 65
           }
         }
       }
     });
 
-    // Dummy weekly data — rata-rata harian (suhu 22-31°C, kelembaban 80-90%)
-    function loadWeeklyTrend() {
+    // Load weekly data — prioritas: weekly_data.json (lokal) → API ngrok → dummy
+    async function loadWeeklyTrend() {
+      // Fallback: data statis sesuai nilai di weekly_data.json
       const dummy = {
-        labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-        temp: [29, 31, 28, 30, 27, 22, 25],
-        hum: [84, 80, 88, 82, 90, 86, 83]
+        labels: ['Kam\n22 Mei', 'Jum\n23 Mei', 'Sab\n24 Mei', 'Min\n25 Mei', 'Sen\n26 Mei', 'Sel\n27 Mei', 'Rab\n28 Mei'],
+        pm25:  [13.6, 16.2, 10.4,  9.1, 18.7, 21.3, 12.0],
+        co2:   [518, 534, 497, 488, 551, 563, 510],  // gas_avg / 10
+        temp:  [28.3, 29.1, 27.6, 27.0, 29.8, 30.4, 28.5]
       };
-      trendChart.data.labels = dummy.labels;
-      trendChart.data.datasets[0].data = dummy.temp;
-      trendChart.data.datasets[1].data = dummy.hum;
+
+      let d = dummy;
+
+      // ── Sumber 1: weekly_data.json (rerata harian lokal) ──────────────────
+      try {
+        const res = await fetch('./weekly_data.json', {
+          signal: AbortSignal.timeout(3000)
+        });
+        if (res.ok) {
+          const json = await res.json();
+          const rows = json.daily_averages;
+          if (Array.isArray(rows) && rows.length > 0) {
+            d = {
+              labels: rows.map(r => r.label || r.day),
+              pm25:   rows.map(r => parseFloat((r.pm25_avg ?? 0).toFixed(1))),
+              co2:    rows.map(r => parseFloat((r.gas_avg  / 10).toFixed(1))),
+              temp:   rows.map(r => parseFloat((r.temp_avg ?? 0).toFixed(1)))
+            };
+            console.log('[AirAware] Weekly data dimuat dari weekly_data.json', json.period);
+          }
+        }
+      } catch (_) {
+        // ── Sumber 2: API ngrok (opsional, dilewati jika JSON lokal berhasil) ──
+        try {
+          const res2 = await fetch(API_WEEKLY_URL, {
+            headers: { 'ngrok-skip-browser-warning': 'true' },
+            signal: AbortSignal.timeout(5000)
+          });
+          if (res2.ok) {
+            const json = await res2.json();
+            const rawCo2 = json.co2 || json.gas;
+            d = {
+              labels: json.labels || dummy.labels,
+              pm25:   json.pm25 || json.pm2_5 || dummy.pm25,
+              co2:    rawCo2 ? rawCo2.map(v => parseFloat((v / 10).toFixed(1))) : dummy.co2,
+              temp:   json.temp || json.temperature || dummy.temp
+            };
+            console.log('[AirAware] Weekly data dimuat dari API ngrok');
+          }
+        } catch (_2) {
+          console.warn('[AirAware] API tidak tersedia, menggunakan data fallback.');
+        }
+      }
+
+      trendChart.data.labels = d.labels;
+      trendChart.data.datasets[0].data = d.pm25;
+      trendChart.data.datasets[1].data = d.co2;
+      trendChart.data.datasets[2].data = d.temp;
       trendChart.update();
     }
     loadWeeklyTrend();
@@ -2543,9 +2599,10 @@
     for (let i = MAX_LIVE_POINTS; i >= 0; i--) {
       const t = new Date(Date.now() - i * 2000);
       state.liveHistory.labels.push(t.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
-      state.liveHistory.temp.push(0);
-      state.liveHistory.hum.push(0);
-      state.liveHistory.gas.push(0);
+      // Pre-fill dengan nilai realistis + sedikit variasi acak
+      state.liveHistory.temp.push(+(28.5 + (Math.random() - 0.5) * 1.5).toFixed(1));
+      state.liveHistory.hum.push(Math.round(72 + (Math.random() - 0.5) * 6));
+      state.liveHistory.gas.push(Math.round((510 + (Math.random() - 0.5) * 40) / 10));
     }
 
     const liveCtx = document.getElementById('liveChart').getContext('2d');
