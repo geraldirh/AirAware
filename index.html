@@ -272,10 +272,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
       box-shadow: 0 0 14px var(--glow-blue);
       flex-shrink: 0;
-      background: rgba(59, 158, 255, 0.08);
+      background: #ffffff;
+      /* Latar belakang putih agar logo gambar kontras */
+      overflow: hidden;
+      /* Memotong sudut gambar agar sesuai dengan border-radius */
+      padding: 2px;
+      /* Jarak tipis agar logo tidak menempel langsung ke garis batas */
+      transition: all 0.3s ease;
+    }
+
+    .nav-brand-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      /* Memastikan rasio aspek logo tetap proporsional */
     }
 
     .nav-brand-text {
@@ -555,7 +567,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: transparent;
+      background: rgb(237, 237, 237);
       color: var(--text-muted);
       border: 1px solid var(--border);
       border-radius: 10px;
@@ -571,7 +583,7 @@
     .btn-outline:hover {
       border-color: var(--accent-blue);
       color: var(--text-main);
-      background: rgba(59, 158, 255, 0.07);
+      background: rgba(237, 237, 237, 0.242);
     }
 
     /* Home stats strip */
@@ -1060,7 +1072,7 @@
     }
 
     /* ═══════════════════════════════════════════════════
-   ██  PAGE 3 — REGISTER (WA)
+   ██  PAGE 3 — REGISTER (QR)
 ═══════════════════════════════════════════════════ */
 
     /* Hero strip */
@@ -1073,8 +1085,8 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(37, 194, 110, 0.1);
-      border: 1px solid rgba(37, 194, 110, 0.25);
+      background: rgb(255, 255, 255);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       border-radius: 20px;
       padding: 5px 14px;
       font-family: var(--font-display);
@@ -1106,7 +1118,7 @@
       line-height: 1.7;
     }
 
-    /* Main card */
+    /* Main card — two columns */
     .reg-main-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -1114,7 +1126,7 @@
       overflow: hidden;
       position: relative;
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1.3fr 1fr;
     }
 
     .reg-main-card::before {
@@ -1127,10 +1139,15 @@
       background: linear-gradient(90deg, transparent, rgba(30, 144, 255, 0.7), rgba(135, 206, 250, 0.5), transparent);
     }
 
-    /* Left: form pane */
-    .reg-form-pane {
-      padding: 32px 32px 28px;
+    /* Left: QR pane */
+    .reg-qr-pane {
+      padding: 36px 36px 32px;
       border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 22px;
     }
 
     .reg-pane-title {
@@ -1140,10 +1157,10 @@
       letter-spacing: 2px;
       color: var(--text-muted);
       text-transform: uppercase;
-      margin-bottom: 22px;
       display: flex;
       align-items: center;
       gap: 8px;
+      width: 100%;
     }
 
     .reg-pane-title::after {
@@ -1153,20 +1170,84 @@
       background: var(--border);
     }
 
-    /* Right: info pane */
-    .reg-info-pane {
-      padding: 32px 28px 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      background: var(--bg-card2);
+    /* QR image wrapper */
+    .reg-qr-frame {
+      position: relative;
+      display: inline-block;
+      padding: 16px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(30, 144, 255, 0.14), 0 2px 8px rgba(0, 0, 0, 0.07);
+      border: 2px solid rgba(30, 144, 255, 0.18);
+      animation: qrFloat 3.5s ease-in-out infinite;
+    }
+
+    @keyframes qrFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-7px);
+      }
+    }
+
+    .reg-qr-frame img {
+      display: block;
+      width: 200px;
+      height: 200px;
+      border-radius: 8px;
+    }
+
+    /* Corner accents */
+    .reg-qr-frame::before,
+    .reg-qr-frame::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-color: var(--accent-blue);
+      border-style: solid;
+    }
+
+    .reg-qr-frame::before {
+      top: 6px;
+      left: 6px;
+      border-width: 3px 0 0 3px;
+      border-radius: 4px 0 0 0;
+    }
+
+    .reg-qr-frame::after {
+      bottom: 6px;
+      right: 6px;
+      border-width: 0 3px 3px 0;
+      border-radius: 0 0 4px 0;
+    }
+
+    .reg-qr-label {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--text-main);
+    }
+
+    .reg-qr-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 300px;
     }
 
     /* Steps */
     .reg-steps {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
+      width: 100%;
+      text-align: left;
     }
 
     .reg-step {
@@ -1176,8 +1257,8 @@
     }
 
     .reg-step-num {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       flex-shrink: 0;
       background: linear-gradient(135deg, #1e90ff, #5ab4ff);
@@ -1185,7 +1266,7 @@
       align-items: center;
       justify-content: center;
       font-family: var(--font-display);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       color: #ffffff;
     }
@@ -1194,10 +1275,10 @@
 
     .reg-step-title {
       font-family: var(--font-display);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--text-main);
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
 
     .reg-step-desc {
@@ -1206,13 +1287,13 @@
       line-height: 1.55;
     }
 
-    .reg-step-desc a {
-      color: var(--accent-teal);
-      text-decoration: none;
-    }
-
-    .reg-step-desc a:hover {
-      text-decoration: underline;
+    /* Right: info pane */
+    .reg-info-pane {
+      padding: 32px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: var(--bg-card2);
     }
 
     /* Alert thresholds */
@@ -1234,45 +1315,13 @@
       margin-bottom: 12px;
     }
 
-    .reg-thresh-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
-    }
-
-    .reg-thresh-item {
-      text-align: center;
-      background: rgba(59, 158, 255, 0.05);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 6px;
-    }
-
-    .reg-thresh-icon {
-      font-size: 16px;
-      margin-bottom: 3px;
-    }
-
-    .reg-thresh-val {
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .reg-thresh-label {
-      font-size: 9px;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
     /* Reg grid responsive */
     @media (max-width: 820px) {
       .reg-main-card {
         grid-template-columns: 1fr;
       }
 
-      .reg-form-pane {
+      .reg-qr-pane {
         border-right: none;
         border-bottom: 1px solid var(--border);
       }
@@ -1280,494 +1329,37 @@
       .reg-info-pane {
         padding: 24px;
       }
-
-      .reg-thresh-grid {
-        grid-template-columns: 1fr 1fr 1fr;
-      }
     }
 
-    /* Config card */
-    .wa-config-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .wa-config-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(30, 144, 255, 0.7), transparent);
-    }
-
-    .wa-card-label {
-      font-family: var(--font-display);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .wa-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--accent-green);
-    }
-
-    .wa-form {
+    /* Live air data in register pane */
+    .reg-live-row {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-    }
-
-    .wa-field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .wa-field-label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    .wa-input {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text-main);
-      font-family: var(--font-body);
-      font-size: 13px;
-      padding: 10px 14px;
-      outline: none;
-      width: 100%;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .wa-input:focus {
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.12);
-    }
-
-    .wa-input::placeholder {
-      color: var(--text-dim);
-    }
-
-    .wa-input-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
 
-    .wa-select {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text-main);
-      font-family: var(--font-body);
-      font-size: 13px;
-      padding: 10px 14px;
-      outline: none;
-      width: 100%;
-      cursor: pointer;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2310b981' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 32px;
-    }
-
-    .wa-select:focus {
-      border-color: var(--accent-green);
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-    }
-
-    .wa-select option {
-      background: #ffffff;
-      color: var(--text-main);
-    }
-
-    .wa-checkbox-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .wa-checkbox-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 6px 10px;
-      border-radius: 6px;
-      transition: background 0.2s;
-    }
-
-    .wa-checkbox-item:hover {
-      background: rgba(16, 185, 129, 0.04);
-    }
-
-    .wa-checkbox-item input[type="checkbox"] {
-      accent-color: var(--accent-green);
-      width: 14px;
-      height: 14px;
-      cursor: pointer;
-    }
-
-    .wa-btn-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .wa-btn {
-      flex: 1;
-      background: var(--accent-green);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-family: var(--font-display);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      padding: 11px 14px;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .wa-btn:hover {
-      opacity: 0.85;
-    }
-
-    .wa-btn:active {
-      transform: scale(0.97);
-    }
-
-    .wa-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .wa-btn-test {
-      background: transparent;
-      border: 1px solid var(--accent-green);
-      color: var(--accent-green);
-      flex: 0 0 auto;
-      padding: 11px 16px;
-    }
-
-    .wa-btn-test:hover {
-      background: rgba(37, 194, 110, 0.08);
-      opacity: 1;
-    }
-
-    .wa-toast {
-      margin-top: 8px;
-      padding: 9px 14px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 500;
-      display: none;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-display);
-      letter-spacing: 0.5px;
-    }
-
-    .wa-toast.show {
-      display: flex;
-    }
-
-    .wa-toast.success {
-      background: rgba(37, 194, 110, 0.12);
-      border: 1px solid rgba(37, 194, 110, 0.3);
-      color: #25c26e;
-    }
-
-    .wa-toast.error {
-      background: rgba(255, 77, 90, 0.1);
-      border: 1px solid rgba(255, 77, 90, 0.3);
-      color: #ff4d5a;
-    }
-
-    .wa-toast.info {
-      background: rgba(59, 158, 255, 0.1);
-      border: 1px solid rgba(59, 158, 255, 0.2);
-      color: #3b9eff;
-    }
-
-    .wa-threshold-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 18px;
-      padding-top: 18px;
-      border-top: 1px solid var(--border);
-    }
-
-    .wa-threshold-item {
-      background: var(--bg-card2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .wa-threshold-label {
-      font-size: 9px;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-    }
-
-    .wa-threshold-val {
-      font-family: var(--font-display);
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    /* Subscriber list card */
-    .wa-list-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .wa-list-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(59, 158, 255, 0.5), transparent);
-    }
-
-    .wa-list-header {
+    .reg-live-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .wa-count-badge {
-      font-family: var(--font-display);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      background: rgba(59, 158, 255, 0.12);
-      color: var(--accent-blue);
-      border: 1px solid rgba(59, 158, 255, 0.2);
-      padding: 3px 12px;
-      border-radius: 20px;
-    }
-
-    .wa-subscriber-list {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-height: 400px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-
-    .wa-subscriber-list::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .wa-subscriber-list::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .wa-subscriber-list::-webkit-scrollbar-thumb {
-      background: var(--text-dim);
-      border-radius: 2px;
-    }
-
-    .wa-subscriber-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
       background: #ffffff;
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 10px 14px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 15px rgba(6, 78, 59, 0.02);
+      padding: 12px 16px;
     }
 
-    .wa-subscriber-item:hover {
-      border-color: rgba(16, 185, 129, 0.25);
-      box-shadow: 0 4px 18px rgba(6, 78, 59, 0.04);
-    }
-
-    .wa-avatar {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #10b981, #3b9eff);
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      font-weight: 600;
-      color: #ffffff;
-      flex-shrink: 0;
-    }
-
-    .wa-sub-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .wa-sub-name {
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-main);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .wa-sub-phone {
-      font-size: 11px;
+    .reg-live-label {
+      font-size: 12px;
       color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .wa-sub-badges {
-      display: flex;
-      gap: 4px;
-      flex-shrink: 0;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .wa-badge {
-      font-family: var(--font-display);
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      padding: 2px 7px;
-      border-radius: 4px;
-      text-transform: uppercase;
-    }
-
-    .wa-badge-temp {
-      background: rgba(240, 165, 0, 0.15);
-      color: #f0a500;
-    }
-
-    .wa-badge-hum {
-      background: rgba(59, 158, 255, 0.15);
-      color: #3b9eff;
-    }
-
-    .wa-badge-aqi {
-      background: rgba(255, 77, 90, 0.15);
-      color: #ff4d5a;
-    }
-
-    .wa-del-btn {
-      background: transparent;
-      border: 1px solid rgba(255, 77, 90, 0.2);
-      color: rgba(255, 77, 90, 0.5);
-      border-radius: 6px;
-      width: 26px;
-      height: 26px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 12px;
-      transition: all 0.2s;
-      flex-shrink: 0;
-    }
-
-    .wa-del-btn:hover {
-      border-color: var(--accent-red);
-      color: var(--accent-red);
-      background: rgba(255, 77, 90, 0.08);
-    }
-
-    .wa-empty {
-      text-align: center;
-      padding: 48px 16px;
-      color: var(--text-dim);
-      font-size: 13px;
-    }
-
-    .wa-empty-icon {
-      font-size: 36px;
-      margin-bottom: 10px;
-      opacity: 0.4;
-    }
-
-    /* Fonnte info box */
-    .fonnte-info {
-      background: rgba(59, 158, 255, 0.06);
-      border: 1px solid rgba(59, 158, 255, 0.15);
-      border-radius: 10px;
-      padding: 14px 16px;
-      margin-top: 20px;
-    }
-
-    .fonnte-info-title {
-      font-family: var(--font-display);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      color: var(--accent-blue);
-      margin-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .fonnte-info p {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .fonnte-info a {
-      color: var(--accent-blue);
-      text-decoration: none;
-    }
-
-    .fonnte-info a:hover {
-      text-decoration: underline;
+    .reg-live-val {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
     }
 
     /* ═══════════════════════════════════════════════════
@@ -1828,22 +1420,6 @@
       .home-tech {
         flex-direction: column;
         gap: 20px;
-      }
-
-      .wa-input-row {
-        grid-template-columns: 1fr;
-      }
-
-      .wa-btn-row {
-        flex-direction: column;
-      }
-
-      .wa-btn-test {
-        flex: 1;
-      }
-
-      .wa-threshold-row {
-        grid-template-columns: 1fr 1fr;
       }
 
       .config-panel {
@@ -1918,7 +1494,9 @@
 ═══════════════════════════════════════════════════ -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-brand" onclick="showPage('home')" id="navBrand">
-      <div class="nav-brand-icon">💨</div>
+      <div class="nav-brand-icon">
+        <img src="logo.png" alt="AirAware Logo">
+      </div>
       <div>
         <div class="nav-brand-text">AIRAWARE</div>
         <div class="nav-brand-sub">AIR MONITORING SYSTEM</div>
@@ -1983,7 +1561,7 @@
             📡 Buka Dashboard Monitoring
           </button>
           <button class="btn-outline" onclick="showPage('register')">
-            🔔 Daftar Notifikasi WA
+            📲 Scan QR &amp; Daftar
           </button>
         </div>
       </div>
@@ -2054,8 +1632,8 @@
           style="--fc-color:rgba(37,194,110,0.4);--fc-bg:rgba(37,194,110,0.1);--fc-border:rgba(37,194,110,0.15);">
           <div class="feature-card-icon">🔔</div>
           <h3>Notifikasi WhatsApp</h3>
-          <p>Daftarkan nomor WhatsApp untuk menerima peringatan otomatis saat suhu, kelembaban, atau AQI melampaui
-            ambang batas berbahaya via Fonnte API.</p>
+          <p>Scan QR code untuk langsung mendaftar ke Twilio Sandbox. Peringatan otomatis dikirim saat suhu,
+            kelembaban, atau AQI melebihi ambang batas berbahaya.</p>
         </div>
         <div class="feature-card"
           style="--fc-color:rgba(240,165,0,0.4);--fc-bg:rgba(240,165,0,0.1);--fc-border:rgba(240,165,0,0.15);">
@@ -2244,190 +1822,132 @@
 
     </section>
 
-    <!-- ██████ PAGE 3: REGISTER WA ██████ -->
+    <!-- ██████ PAGE 3: REGISTER QR ██████ -->
     <section class="page-section" id="pageRegister">
 
       <!-- Hero -->
       <div class="reg-hero">
-        <div class="reg-hero-badge">🔔 Notifikasi Real-Time</div>
-        <h2>Registrasi WhatsApp</h2>
-        <p>Daftarkan nomor WhatsApp Anda untuk menerima peringatan otomatis saat kualitas udara di Gedung Deli melewati
-          ambang batas bahaya. Didukung secara aman oleh <strong style="color:var(--accent-teal);">Node-RED &amp;
-            Twilio</strong>.</p>
+        <div class="reg-hero-badge">📲 Scan &amp; Aktifkan Notifikasi</div>
+        <h2>Registrasi via WhatsApp</h2>
+        <p>Scan QR code di bawah untuk langsung membuka WhatsApp dan mengirim kode aktivasi ke nomor Twilio Sandbox.
+          Setelah terkirim, Anda akan otomatis menerima peringatan kualitas udara real-time dari
+          <strong style="color:var(--accent-blue);">AirAware</strong>.
+        </p>
       </div>
 
-      <!-- Main card: form + info side by side -->
+      <!-- Main card: QR + air quality -->
       <div class="reg-main-card">
 
-        <!-- LEFT: Form -->
-        <div class="reg-form-pane">
-          <div class="reg-pane-title">✏️ Form Pendaftaran</div>
+        <!-- LEFT: QR Code -->
+        <div class="reg-qr-pane">
+          <div class="reg-pane-title">📲 Scan untuk Daftar</div>
 
-          <div class="wa-form">
-
-
-            <!-- Subscriber Info Block -->
-            <div class="wa-field">
-              <div class="wa-field-label">Nama</div>
-              <input class="wa-input" id="waName" type="text" placeholder="Contoh: Admin Lab" maxlength="30" />
-            </div>
-
-            <div class="wa-field">
-              <div class="wa-field-label">Nomor WhatsApp Penerima</div>
-              <input class="wa-input" id="waPhone" type="tel" placeholder="628xxxxxxxxxx"
-                title="Format: 628xxxxxxxxxx (tanpa + atau spasi)" />
-            </div>
-
-            <div class="wa-field">
-              <div class="wa-field-label">Kirim notifikasi saat</div>
-              <div class="wa-checkbox-group">
-                <label class="wa-checkbox-item">
-                  <input type="checkbox" id="chkTemp" checked> 🌡️ Suhu tinggi (&gt;35°C)
-                </label>
-                <label class="wa-checkbox-item">
-                  <input type="checkbox" id="chkHum" checked> 💧 Kelembaban rendah (&lt;20%)
-                </label>
-                <label class="wa-checkbox-item">
-                  <input type="checkbox" id="chkAqi" checked> 📊 AQI tidak sehat (&gt;150)
-                </label>
-              </div>
-            </div>
-
-            <div class="wa-field">
-              <div class="wa-field-label">Jeda antar notifikasi</div>
-              <select class="wa-select" id="waCooldown">
-                <option value="15">15 menit</option>
-                <option value="30" selected>30 menit</option>
-                <option value="60">1 jam</option>
-                <option value="120">2 jam</option>
-              </select>
-            </div>
-
-            <div class="wa-btn-row">
-              <button class="wa-btn" id="waSaveBtn" onclick="saveSubscriber()">
-                ＋ Daftarkan Nomor
-              </button>
-              <button class="wa-btn wa-btn-test" id="waTestBtn" onclick="sendTestWA()">
-                📤 Kirim Test
-              </button>
-            </div>
-
-            <div class="wa-toast" id="waToast"></div>
+          <!-- QR image -->
+          <div class="reg-qr-frame">
+            <img src="qr_twilio.png" alt="QR Code Twilio Sandbox" id="qrImg" />
           </div>
 
-          <!-- Threshold strip -->
-          <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--border);">
-            <div class="reg-thresh-title">⚡ Ambang batas alert</div>
-            <div class="reg-thresh-grid">
-              <div class="reg-thresh-item">
-                <div class="reg-thresh-icon">🌡️</div>
-                <div class="reg-thresh-val" style="color:var(--accent-amber);">35°C</div>
-                <div class="reg-thresh-label">Suhu</div>
-              </div>
-              <div class="reg-thresh-item">
-                <div class="reg-thresh-icon">💧</div>
-                <div class="reg-thresh-val" style="color:var(--accent-blue);">20%</div>
-                <div class="reg-thresh-label">Kelembaban</div>
-              </div>
-              <div class="reg-thresh-item">
-                <div class="reg-thresh-icon">📊</div>
-                <div class="reg-thresh-val" style="color:var(--accent-red);">150</div>
-                <div class="reg-thresh-label">AQI</div>
-              </div>
-            </div>
+          <div class="reg-qr-label">📱 Buka WhatsApp &amp; Kirim Kode</div>
+          <div class="reg-qr-sub">
+            Scan QR di atas menggunakan kamera HP Anda. WhatsApp akan terbuka otomatis dengan pesan <strong>join
+              [kode-sandbox]</strong> yang siap dikirim.
           </div>
-        </div>
 
-        <!-- RIGHT: Info panel -->
-        <div class="reg-info-pane">
-          <div class="reg-pane-title" style="color:var(--accent-teal);border-color:var(--accent-teal);">📖 Cara
-            Penggunaan</div>
-
+          <!-- Steps -->
           <div class="reg-steps">
             <div class="reg-step">
               <div class="reg-step-num">1</div>
               <div class="reg-step-body">
-                <div class="reg-step-title">Aktivasi Sandbox Twilio</div>
-                <div class="reg-step-desc">Kirim pesan WhatsApp berisi <em style="color:var(--text-main);">join
-                    [kode-sandbox]</em> ke nomor WhatsApp Sandbox Twilio Anda untuk mengaktifkan penerimaan pesan.</div>
+                <div class="reg-step-title">Scan QR Code</div>
+                <div class="reg-step-desc">Arahkan kamera ke QR di atas.</div>
               </div>
             </div>
             <div class="reg-step">
               <div class="reg-step-num">2</div>
               <div class="reg-step-body">
-                <div class="reg-step-title">Konfigurasi Kredensial Twilio</div>
-                <div class="reg-step-desc">Masukkan **Account SID**, **Auth Token**, dan **Sender Number** Anda ke panel
-                  kiri, lalu klik **Simpan Kredensial**.</div>
+                <div class="reg-step-title">Kirim Pesan Join</div>
+                <div class="reg-step-desc">WhatsApp terbuka otomatis, tekan <strong>kirim.</strong></div>
               </div>
             </div>
             <div class="reg-step">
               <div class="reg-step-num">3</div>
               <div class="reg-step-body">
-                <div class="reg-step-title">Isi Form Penerima</div>
-                <div class="reg-step-desc">Masukkan **Nama** dan **Nomor WhatsApp** penerima dengan format <em
-                    style="color:var(--text-main);">628xxxxxxxxxx</em>.</div>
+                <div class="reg-step-title">Verifikasi</div>
+                <div class="reg-step-desc">Lalu kirimkan pesan apa saja untuk <strong>verifikasi</strong> cont : "halo",
+                  "test", "hai".
+                </div>
               </div>
+
             </div>
             <div class="reg-step">
               <div class="reg-step-num">4</div>
               <div class="reg-step-body">
-                <div class="reg-step-title">Uji Koneksi API</div>
-                <div class="reg-step-desc">Klik tombol <em style="color:var(--text-main);">Kirim Test</em> untuk
-                  mengirim pesan WhatsApp simulasi langsung dari browser Anda ke nomor tujuan.</div>
-              </div>
-            </div>
-            <div class="reg-step">
-              <div class="reg-step-num">5</div>
-              <div class="reg-step-body">
-                <div class="reg-step-title">Aktifkan Pemantauan</div>
-                <div class="reg-step-desc">Klik tombol <em style="color:var(--text-main);">Daftarkan Nomor</em>. Browser
-                  Anda otomatis mengirim pesan peringatan real-time jika sensor mendeteksi udara memburuk!</div>
+                <div class="reg-step-title">Terima Notifikasi</div>
+                <div class="reg-step-desc">Sistem AirAware akan mengirim peringatan otomatis ke nomor Anda saat udara di
+                  Gedung Deli memburuk.</div>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Current sensor status -->
-          <div class="reg-thresholds">
-            <div class="reg-thresh-title">📡 Kondisi udara saat ini</div>
+        <!-- RIGHT: Live air data -->
+        <div class="reg-info-pane">
+          <div class="reg-pane-title" style="color:var(--accent-blue);">📡 Kondisi Udara Saat Ini</div>
+
+          <div class="reg-live-row">
+            <div class="reg-live-item">
+              <div class="reg-live-label">🌡️ Suhu</div>
+              <div class="reg-live-val" style="color:var(--accent-amber);" id="regTempVal">—</div>
+            </div>
+            <div class="reg-live-item">
+              <div class="reg-live-label">💧 Kelembaban</div>
+              <div class="reg-live-val" style="color:var(--accent-blue);" id="regHumVal">—</div>
+            </div>
+            <div class="reg-live-item">
+              <div class="reg-live-label">📊 AQI</div>
+              <div class="reg-live-val" style="color:var(--accent-red);" id="regAqiVal">—</div>
+            </div>
+          </div>
+
+          <!-- Alert thresholds info -->
+          <div class="reg-thresholds" style="margin-top:8px;">
+            <div class="reg-thresh-title">⚡ Ambang Batas Alert Otomatis</div>
             <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
               <div style="display:flex;justify-content:space-between;align-items:center;">
                 <span style="font-size:12px;color:var(--text-muted);">🌡️ Suhu</span>
-                <span style="font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--accent-amber);"
-                  id="regTempVal">—</span>
+                <span
+                  style="font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--accent-amber);">&#62;
+                  35°C</span>
               </div>
               <div style="display:flex;justify-content:space-between;align-items:center;">
                 <span style="font-size:12px;color:var(--text-muted);">💧 Kelembaban</span>
-                <span style="font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--accent-blue);"
-                  id="regHumVal">—</span>
+                <span
+                  style="font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--accent-blue);">&#60;
+                  20%</span>
               </div>
               <div style="display:flex;justify-content:space-between;align-items:center;">
                 <span style="font-size:12px;color:var(--text-muted);">📊 AQI</span>
-                <span style="font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--accent-red);"
-                  id="regAqiVal">—</span>
+                <span
+                  style="font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--accent-red);">&#62;
+                  150</span>
               </div>
             </div>
           </div>
 
-          <!-- Visible Subscriber List in Right Pane -->
-          <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border);">
-            <div class="reg-pane-title"
-              style="border-color: var(--accent-teal); display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-              <span>📋 Penerima Alert Terdaftar</span>
-              <span id="subCount" class="nav-clock" style="font-size:11px; color: var(--accent-teal);">0 aktif</span>
-            </div>
-            <div id="subscriberList"
-              style="display: flex; flex-direction: column; gap: 10px; max-height: 250px; overflow-y: auto; padding-right: 4px;">
-            </div>
-          </div>
-
+          <!-- Note -->
+          <!-- <div
+            style="background:rgba(30,144,255,0.07);border:1px solid rgba(30,144,255,0.18);border-radius:12px;padding:14px 16px;margin-top:8px;">
+            <div
+              style="font-family:var(--font-display);font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--accent-blue);margin-bottom:8px;">
+              ℹ️ CARA KERJA</div>
+            <p style="font-size:12px;color:var(--text-muted);line-height:1.65;margin:0;">
+              Setelah Anda mengirim kode join, nomor WhatsApp Anda terdaftar di Twilio Sandbox.
+              Server AirAware (Node-RED) akan mengirim peringatan otomatis setiap kali sensor mendeteksi kondisi
+              berbahaya.
+            </p>
+          </div> -->
         </div>
 
-      </div>
-
-      <!-- Subscriber count (hidden, kept for JS compatibility) -->
-      <div style="display:none;">
-        <span id="subCount">0 aktif</span>
-        <div id="subscriberList"></div>
       </div>
 
     </section>
@@ -2443,6 +1963,8 @@
     ════════════════════════════════════════════════ */
     const API_WEEKLY_URL = "https://buckskin-concept-kissing.ngrok-free.dev/api/weekly";
     const DEFAULT_WS_URL = "wss://buckskin-concept-kissing.ngrok-free.dev/ws/airaware";
+    const SUPABASE_URL = 'https://jwwgmqrceigzwckxqnqr.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3d2dtcXJjZWlnendja3hxbnFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0ODkzMzUsImV4cCI6MjA5NTA2NTMzNX0.f466Taqjz0OZsbrw6253v3mlC0YFQ-eY7oLchBZKQOc';
 
     /* ════════════════════════════════════════════════
        STATE
@@ -2532,19 +2054,54 @@
       }
     });
 
-    // Load weekly data — prioritas: weekly_data.json (lokal) → API ngrok → dummy
+    // Load weekly data — prioritas: Supabase → weekly_data.json → API ngrok → dummy
     async function loadWeeklyTrend() {
       // Fallback: data statis sesuai nilai di weekly_data.json
       const dummy = {
         labels: ['Kam\n22 Mei', 'Jum\n23 Mei', 'Sab\n24 Mei', 'Min\n25 Mei', 'Sen\n26 Mei', 'Sel\n27 Mei', 'Rab\n28 Mei'],
-        pm25:  [13.6, 16.2, 10.4,  9.1, 18.7, 21.3, 12.0],
-        co2:   [518, 534, 497, 488, 551, 563, 510],  // gas_avg / 10
-        temp:  [28.3, 29.1, 27.6, 27.0, 29.8, 30.4, 28.5]
+        pm25: [13.6, 16.2, 10.4, 9.1, 18.7, 21.3, 12.0],
+        co2: [51.8, 53.4, 49.7, 48.8, 55.1, 56.3, 51.0],
+        temp: [28.3, 29.1, 27.6, 27.0, 29.8, 30.4, 28.5]
       };
 
       let d = dummy;
 
-      // ── Sumber 1: weekly_data.json (rerata harian lokal) ──────────────────
+      // ── Sumber 1: Supabase (prioritas utama) ─────────────────────────────
+      try {
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/air_daily_averages?order=recorded_date.asc&limit=7`,
+          {
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+              'Accept': 'application/json'
+            },
+            signal: AbortSignal.timeout(5000)
+          }
+        );
+        if (res.ok) {
+          const rows = await res.json();
+          if (Array.isArray(rows) && rows.length > 0) {
+            d = {
+              labels: rows.map(r => r.label || r.day),
+              pm25: rows.map(r => parseFloat((r.pm25_avg ?? 0).toFixed(1))),
+              co2: rows.map(r => parseFloat(((r.gas_avg ?? 0) / 10).toFixed(1))),
+              temp: rows.map(r => parseFloat((r.temp_avg ?? 0).toFixed(1)))
+            };
+            console.log('[AirAware] Weekly data dimuat dari Supabase ✓', rows.length, 'hari');
+            trendChart.data.labels = d.labels;
+            trendChart.data.datasets[0].data = d.pm25;
+            trendChart.data.datasets[1].data = d.co2;
+            trendChart.data.datasets[2].data = d.temp;
+            trendChart.update();
+            return;
+          }
+        }
+      } catch (_sb) {
+        console.warn('[AirAware] Supabase tidak tersedia, fallback ke lokal...');
+      }
+
+      // ── Sumber 2: weekly_data.json (rerata harian lokal) ──────────────────
       try {
         const res = await fetch('./weekly_data.json', {
           signal: AbortSignal.timeout(3000)
@@ -2555,15 +2112,15 @@
           if (Array.isArray(rows) && rows.length > 0) {
             d = {
               labels: rows.map(r => r.label || r.day),
-              pm25:   rows.map(r => parseFloat((r.pm25_avg ?? 0).toFixed(1))),
-              co2:    rows.map(r => parseFloat((r.gas_avg  / 10).toFixed(1))),
-              temp:   rows.map(r => parseFloat((r.temp_avg ?? 0).toFixed(1)))
+              pm25: rows.map(r => parseFloat((r.pm25_avg ?? 0).toFixed(1))),
+              co2: rows.map(r => parseFloat((r.gas_avg / 10).toFixed(1))),
+              temp: rows.map(r => parseFloat((r.temp_avg ?? 0).toFixed(1)))
             };
             console.log('[AirAware] Weekly data dimuat dari weekly_data.json', json.period);
           }
         }
       } catch (_) {
-        // ── Sumber 2: API ngrok (opsional, dilewati jika JSON lokal berhasil) ──
+        // ── Sumber 3: API ngrok (opsional, fallback terakhir) ──
         try {
           const res2 = await fetch(API_WEEKLY_URL, {
             headers: { 'ngrok-skip-browser-warning': 'true' },
@@ -2574,14 +2131,14 @@
             const rawCo2 = json.co2 || json.gas;
             d = {
               labels: json.labels || dummy.labels,
-              pm25:   json.pm25 || json.pm2_5 || dummy.pm25,
-              co2:    rawCo2 ? rawCo2.map(v => parseFloat((v / 10).toFixed(1))) : dummy.co2,
-              temp:   json.temp || json.temperature || dummy.temp
+              pm25: json.pm25 || json.pm2_5 || dummy.pm25,
+              co2: rawCo2 ? rawCo2.map(v => parseFloat((v / 10).toFixed(1))) : dummy.co2,
+              temp: json.temp || json.temperature || dummy.temp
             };
             console.log('[AirAware] Weekly data dimuat dari API ngrok');
           }
         } catch (_2) {
-          console.warn('[AirAware] API tidak tersedia, menggunakan data fallback.');
+          console.warn('[AirAware] Semua sumber tidak tersedia, menggunakan data dummy.');
         }
       }
 
@@ -2873,179 +2430,9 @@
 
 
     /* ════════════════════════════════════════════════
-       WA NOTIFICATION SYSTEM (NODE-RED PROXY BRIDGED)
-    ════════════════════════════════════════════════ */
-    function saveSubscribers() { localStorage.setItem('aw_subscribers', JSON.stringify(subscribers)); }
-
-    function showToast(msg, type = 'info') {
-      const t = document.getElementById('waToast');
-      t.textContent = msg; t.className = `wa-toast show ${type}`;
-      setTimeout(() => { t.classList.remove('show'); }, 4000);
-    }
-
-    function validatePhone(phone) { return /^62\d{9,13}$/.test(phone); }
-
-    // Subscribes recipient via Node-RED API (runs server-side to avoid CORS blocks)
-    async function saveSubscriber() {
-      const name = document.getElementById('waName').value.trim();
-      const phone = document.getElementById('waPhone').value.trim().replace(/\s/g, '');
-      const chkTemp = document.getElementById('chkTemp').checked;
-      const chkHum = document.getElementById('chkHum').checked;
-      const chkAqi = document.getElementById('chkAqi').checked;
-      const cooldown = parseInt(document.getElementById('waCooldown').value);
-      const nodeRedBase = getNodeRedApiBase();
-
-      if (!name) return showToast('⚠ Nama tidak boleh kosong', 'error');
-      if (!validatePhone(phone)) return showToast('⚠ Format nomor salah. Gunakan: 628xxxxxxxxxx', 'error');
-      if (!chkTemp && !chkHum && !chkAqi) return showToast('⚠ Pilih minimal 1 kondisi notifikasi', 'error');
-
-      const subscriberData = {
-        name,
-        phone,
-        alerts: { temp: chkTemp, hum: chkHum, aqi: chkAqi },
-        cooldown
-      };
-
-      const btn = document.getElementById('waSaveBtn');
-      btn.disabled = true; btn.textContent = 'Mendaftarkan...';
-
-      try {
-        const res = await fetch(`${nodeRedBase}/api/airaware/subscribe`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'ngrok-skip-browser-warning': 'true'
-          },
-          body: JSON.stringify(subscriberData)
-        });
-
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-        // Add locally for visual representation on the dashboard
-        const idx = subscribers.findIndex(s => s.phone === phone);
-        const subData = {
-          id: phone,
-          name,
-          phone,
-          alerts: { temp: chkTemp, hum: chkHum, aqi: chkAqi },
-          cooldown
-        };
-
-        if (idx !== -1) {
-          subscribers[idx] = subData;
-        } else {
-          subscribers.push(subData);
-        }
-
-        saveSubscribers();
-        renderSubscriberList();
-
-        showToast(`✓ ${name} berhasil didaftarkan!`, 'success');
-        document.getElementById('waName').value = '';
-        document.getElementById('waPhone').value = '';
-      } catch (err) {
-        console.error('[AirAware] Subscription error:', err);
-        showToast('✕ Gagal mendaftar. Pastikan backend Node-RED aktif & URL benar.', 'error');
-      } finally {
-        btn.disabled = false; btn.textContent = '＋ Daftarkan Nomor';
-      }
-    }
-
-    // Unsubscribes recipient via Node-RED API (runs server-side to avoid CORS blocks)
-    async function deleteSubscriber(phone) {
-      const nodeRedBase = getNodeRedApiBase();
-      const btn = document.querySelector(`.wa-subscriber-item button[onclick*="${phone}"]`);
-      if (btn) btn.disabled = true;
-
-      try {
-        const res = await fetch(`${nodeRedBase}/api/airaware/unsubscribe`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'ngrok-skip-browser-warning': 'true'
-          },
-          body: JSON.stringify({ phone })
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-        subscribers = subscribers.filter(s => s.phone !== phone);
-        saveSubscribers();
-        renderSubscriberList();
-        showToast('✓ Nomor berhasil dihapus dari sistem', 'success');
-      } catch (err) {
-        console.error('[AirAware] Unsubscribe error:', err);
-        showToast('✕ Gagal menghapus nomor dari server Node-RED.', 'error');
-        if (btn) btn.disabled = false;
-      }
-    }
-
-    function escHtml(str) { return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-
-    function renderSubscriberList() {
-      const list = document.getElementById('subscriberList');
-      const count = document.getElementById('subCount');
-      count.textContent = `${subscribers.length} aktif`;
-      if (subscribers.length === 0) {
-        list.innerHTML = `<div class="wa-empty"><div class="wa-empty-icon">📵</div><div>Belum ada nomor terdaftar</div><div style="margin-top:6px;font-size:11px;color:var(--text-dim);">Isi form di sebelah kiri untuk mendaftar</div></div>`;
-        return;
-      }
-      list.innerHTML = subscribers.map(s => `
-        <div class="wa-subscriber-item">
-          <div class="wa-avatar">👤</div>
-          <div class="wa-sub-info">
-            <div class="wa-sub-name">${escHtml(s.name)}</div>
-            <div class="wa-sub-phone">${s.phone} · jeda ${s.cooldown}m</div>
-          </div>
-          <div class="wa-sub-badges">
-            ${s.alerts.temp ? '<span class="wa-badge wa-badge-temp">SUHU</span>' : ''}
-            ${s.alerts.hum ? '<span class="wa-badge wa-badge-hum">HUM</span>' : ''}
-            ${s.alerts.aqi ? '<span class="wa-badge wa-badge-aqi">AQI</span>' : ''}
-          </div>
-          <button class="wa-del-btn" onclick="deleteSubscriber('${s.phone}')" title="Hapus">✕</button>
-        </div>
-      `).join('');
-    }
-
-    // Sends test message via Node-RED API (runs server-side to avoid CORS blocks)
-    async function sendTestWA() {
-      const phone = document.getElementById('waPhone').value.trim().replace(/\s/g, '');
-      const nodeRedBase = getNodeRedApiBase();
-
-      if (!validatePhone(phone)) return showToast('⚠ Isi nomor penerima dulu (628xxxxxxxxxx)', 'error');
-
-      const btn = document.getElementById('waTestBtn');
-      btn.disabled = true; btn.textContent = 'Mengirim...';
-      showToast('📤 Mengirim pesan test...', 'info');
-
-      try {
-        const res = await fetch(`${nodeRedBase}/api/airaware/test`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'ngrok-skip-browser-warning': 'true'
-          },
-          body: JSON.stringify({ phone })
-        });
-
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        showToast('✓ Pesan test berhasil dikirim via Twilio & Node-RED!', 'success');
-      } catch (e) {
-        console.error('[AirAware] Test WA Error:', e);
-        showToast('✕ Gagal kirim. Cek koneksi Node-RED & setup Twilio.', 'error');
-      } finally {
-        btn.disabled = false; btn.textContent = '📤 Kirim Test';
-      }
-    }
-
-    // Ensure lastSent state is initialized on load
-    subscribers.forEach(sub => {
-      if (!sub.lastSent) sub.lastSent = { temp: 0, hum: 0, aqi: 0 };
-    });
-
-    /* ════════════════════════════════════════════════
        INIT
     ════════════════════════════════════════════════ */
-    renderSubscriberList();
+    // Nothing to init for register page — QR-based flow, no form DOM needed.
   </script>
 </body>
 
