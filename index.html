@@ -2069,7 +2069,7 @@
       // ── Sumber 1: Supabase (prioritas utama) ─────────────────────────────
       try {
         const res = await fetch(
-          `${SUPABASE_URL}/rest/v1/air_daily_averages?order=recorded_date.asc&limit=7`,
+          `${SUPABASE_URL}/rest/v1/air_daily_averages?order=recorded_date.desc&limit=7`,
           {
             headers: {
               'apikey': SUPABASE_ANON_KEY,
@@ -2080,8 +2080,9 @@
           }
         );
         if (res.ok) {
-          const rows = await res.json();
+          let rows = await res.json();
           if (Array.isArray(rows) && rows.length > 0) {
+            rows.reverse(); // Urutkan secara kronologis (ascending) dari terlama ke terbaru
             d = {
               labels: rows.map(r => r.label || r.day),
               pm25: rows.map(r => parseFloat((r.pm25_avg ?? 0).toFixed(1))),
